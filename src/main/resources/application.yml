@@ -1,0 +1,14 @@
+spring:
+  config:
+    import: optional:file:.env[.properties]
+
+  rabbitmq:
+    host: ${RABBITMQ_HOST}
+    port: ${RABBITMQ_PORT}
+    username: ${RABBITMQ_USERNAME}
+    password: ${RABBITMQ_PASSWORD}
+
+rabbitmq:
+  queue_json: ${RABBITMQ_QUEUE}
+  topic: ${RABBITMQ_TOPIC}
+  routing_key: ${RABBITMQ_ROUTING_KEY}
