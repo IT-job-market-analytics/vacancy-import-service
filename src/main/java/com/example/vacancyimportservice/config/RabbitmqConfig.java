@@ -1,6 +1,7 @@
 package com.example.vacancyimportservice.config;
 
-import org.springframework.amqp.core.*;
+import org.springframework.amqp.core.AmqpTemplate;
+import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
@@ -14,12 +15,6 @@ public class RabbitmqConfig {
     @Value("${rabbitmq.queue_json}")
     private String jsonQueue;
 
-    @Value("${rabbitmq.topic}")
-    private String topic;
-
-    @Value("${rabbitmq.routing_key}")
-    private String routing_key;
-
     @Bean
     public MessageConverter jsonMessageConvertor() {
         return new Jackson2JsonMessageConverter();
@@ -28,19 +23,6 @@ public class RabbitmqConfig {
     @Bean
     public Queue queue() {
         return new Queue(jsonQueue);
-    }
-
-    @Bean
-    public TopicExchange exchange() {
-        return new TopicExchange(topic);
-    }
-
-    @Bean
-    public Binding binding() {
-        return BindingBuilder
-                .bind(queue())
-                .to(exchange())
-                .with(routing_key);
     }
 
     @Bean

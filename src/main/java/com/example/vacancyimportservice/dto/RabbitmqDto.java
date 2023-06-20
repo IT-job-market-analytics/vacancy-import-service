@@ -1,4 +1,4 @@
-package com.example.vacancyimportservice;
+package com.example.vacancyimportservice.dto;
 
 import lombok.Data;
 
