@@ -1,0 +1,4 @@
+spring:
+  rabbitmq:
+    username: analytics_service
+    password: password
