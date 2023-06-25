@@ -1,6 +1,6 @@
 package com.example.vacancyimportservice.service;
 
-import com.example.vacancyimportservice.dto.RabbitmqDto;
+import com.example.vacancyimportservice.dto.hh.Item;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +12,7 @@ public class ProduceService {
         this.rabbitTemplate = rabbitTemplate;
     }
 
-    public void produceAnswer(RabbitmqDto rabbitmqDto) {
-        rabbitTemplate.convertAndSend(rabbitmqDto);
+    public void produceAnswer(Item item) {
+        rabbitTemplate.convertAndSend(item);
     }
 }
