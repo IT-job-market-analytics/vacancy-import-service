@@ -4,4 +4,5 @@ spring:
     port: 5672
 
 rabbitmq:
-  queue_json: imported-vacancies-queue
+  vacancies_queue: imported-vacancies-queue
+  vacancy_import_scheduled_tasks_queue: vacancy-import-scheduled-tasks-queue

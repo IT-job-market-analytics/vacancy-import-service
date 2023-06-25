@@ -12,8 +12,8 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class RabbitmqConfig {
-    @Value("${rabbitmq.queue_json}")
-    private String jsonQueue;
+    @Value("${rabbitmq.vacancies_queue}")
+    private String vacanciesQueue;
 
     @Bean
     public MessageConverter jsonMessageConvertor() {
@@ -22,7 +22,7 @@ public class RabbitmqConfig {
 
     @Bean
     public Queue queue() {
-        return new Queue(jsonQueue);
+        return new Queue(vacanciesQueue);
     }
 
     @Bean
