@@ -1,0 +1,12 @@
+POST http://localhost:15672/api/exchanges/%2F/scheduled-tasks-exchange/publish
+Content-Type: application/json
+Authorization: Basic YW5hbHl0aWNzX3NlcnZpY2U6cGFzc3dvcmQ=
+
+{
+  "properties": {
+    "content-type": "application/json"
+  },
+  "routing_key": "vacancy-import-service-task",
+  "payload":  "{\"pageSize\": \"1\", \"pageNumber\": \"1\", \"query\": \"Java\"}",
+  "payload_encoding": "string"
+}
