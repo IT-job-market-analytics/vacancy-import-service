@@ -6,3 +6,6 @@ spring:
 rabbitmq:
   vacancies_queue: imported-vacancies-queue
   vacancy_import_scheduled_tasks_queue: vacancy-import-scheduled-tasks-queue
+
+api:
+  url: https://api.hh.ru/vacancies/
