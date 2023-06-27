@@ -16,12 +16,23 @@ public class HHApiService {
     @Value("${api.url}")
     private String url;
 
+    private final ProduceService produceService;
+
+    public HHApiService(ProduceService produceService) {
+        this.produceService = produceService;
+    }
+
     void query(VacancyImportScheduledTaskDto query) {
         try {
             Vacancies vacancies = requestToApi(query);
-            System.out.println(vacancies.getItems().size());
-        } catch (ApiResponseException e) {
+            vacancies.getItems().forEach(item -> {
+                item.setQuery(query.getQuery());
+                produceService.publishVacancy(item);
+            });
 
+        } catch (ApiResponseException e) {
+            //TODO Обработать
+            throw e;
         }
     }
 

@@ -7,6 +7,6 @@ Authorization: Basic YW5hbHl0aWNzX3NlcnZpY2U6cGFzc3dvcmQ=
     "content-type": "application/json"
   },
   "routing_key": "vacancy-import-service-task",
-  "payload":  "{\"pageSize\": \"1\", \"pageNumber\": \"1\", \"query\": \"Java\"}",
+  "payload":  "{\"pageSize\": \"8\", \"pageNumber\": \"1\", \"query\": \"Java\"}",
   "payload_encoding": "string"
 }
