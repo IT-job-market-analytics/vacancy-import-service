@@ -2,8 +2,7 @@ package com.example.vacancyimportservice.service;
 
 import com.example.vacancyimportservice.dto.VacancyImportScheduledTaskDto;
 import com.example.vacancyimportservice.dto.hh.Vacancies;
-import com.example.vacancyimportservice.exception.ApiRequestException;
-import com.example.vacancyimportservice.exception.ApiResponseException;
+import com.example.vacancyimportservice.exception.HhApiQuotaExceededException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -25,20 +24,20 @@ public class HHApiService {
     }
 
     void query(VacancyImportScheduledTaskDto query) {
-        log.info("Receive schedule query: " + query);
+        log.info("Receive scheduled query: " + query);
         try {
             Vacancies vacancies = requestToApi(query);
-            log.info("Returned vacancies count:  " + vacancies.getItems().size());
+            log.debug("Returned vacancies count: " + vacancies.getItems().size());
+
+            log.debug("Setting query to DTOs and publishing to the next queue");
             vacancies.getItems().forEach(item -> {
                 item.setQuery(query.getQuery());
                 produceService.publishVacancy(item);
             });
 
-        } catch (ApiResponseException e) {
-            log.info(e.getMessage());
-            throw e;
-        } catch (ApiRequestException e) {
-            log.error(e.getMessage());
+            log.info("Query handled successfully");
+        } catch (HhApiQuotaExceededException e) {
+            log.warn("We exceeded HH.ru API quota, swallowing exception, so the message will not be re-queued");
         }
     }
 
@@ -50,24 +49,15 @@ public class HHApiService {
                 .queryParam("page", query.getPageNumber())
                 .queryParam("per_page", query.getPageSize());
 
-        log.info("Request to HH API");
+        log.debug("Requesting vacancies from HH API");
         try {
             ResponseEntity<Vacancies> response = restTemplate.getForEntity(builder.toUriString(), Vacancies.class);
 
-            if (response.getStatusCode().is2xxSuccessful()) {
-                log.info("Request completed successfully");
-                return response.getBody();
-            } else {
-                log.info("Request failed. Response code: " + response.getStatusCode());
-                throw new ApiResponseException("Ошибка при выполнении запроса: " + response.getStatusCode());
-            }
-        } catch (HttpClientErrorException.BadRequest e) {
-            log.info("Request failed. Bad request!");
-            throw new ApiRequestException(e.getMessage());
+            log.debug("Request completed successfully");
+            return response.getBody();
         } catch (HttpClientErrorException.Forbidden e) {
-            log.info("Request failed. Too many request request!");
-            throw new ApiRequestException(e.getMessage());
+            log.error(e.getMessage());
+            throw new HhApiQuotaExceededException(e.getMessage());
         }
     }
-
 }

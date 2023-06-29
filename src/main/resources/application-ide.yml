@@ -1,3 +1,7 @@
+logging:
+  level:
+    com.example.vacancyimportservice.service.HHApiService: debug
+
 spring:
   rabbitmq:
     username: analytics_service
