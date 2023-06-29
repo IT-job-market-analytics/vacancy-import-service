@@ -5,7 +5,6 @@ spring:
 
 rabbitmq:
   vacancies_queue: imported-vacancies-queue
-  vacancies_imported_exchange: imported-vacancies-exchange
   vacancy_import_scheduled_tasks_queue: vacancy-import-scheduled-tasks-queue
 
 api:
