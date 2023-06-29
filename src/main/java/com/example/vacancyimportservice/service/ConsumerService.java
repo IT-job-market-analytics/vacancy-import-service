@@ -6,8 +6,15 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ConsumerService {
-    @RabbitListener(queues = "vacancy-import-scheduled-tasks-queue")
-    public void consumeScheduledQueue(VacancyImportScheduledTaskDto taskDto) {
-        System.out.println(taskDto);
+
+    private final HHApiService hhApiService;
+
+    public ConsumerService(HHApiService hhApiService) {
+        this.hhApiService = hhApiService;
+    }
+
+    @RabbitListener(queues = "${rabbitmq.vacancy_import_scheduled_tasks_queue}")
+    public void consumeScheduledQueue(VacancyImportScheduledTaskDto vacancyImportScheduledTaskDto) {
+        hhApiService.query(vacancyImportScheduledTaskDto);
     }
 }

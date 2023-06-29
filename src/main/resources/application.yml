@@ -4,4 +4,9 @@ spring:
     port: 5672
 
 rabbitmq:
-  queue_json: imported-vacancies-queue
+  vacancies_queue: imported-vacancies-queue
+  vacancies_imported_exchange: imported-vacancies-exchange
+  vacancy_import_scheduled_tasks_queue: vacancy-import-scheduled-tasks-queue
+
+api:
+  url: https://api.hh.ru/vacancies/

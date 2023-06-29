@@ -21,7 +21,7 @@ import java.util.Map;
 public class Vacancies {
 
     @JsonProperty("items")
-    private List<Item> items;
+    private List<Vacancy> vacancies;
     @JsonProperty("found")
     private Integer found;
     @JsonProperty("pages")
@@ -40,13 +40,13 @@ public class Vacancies {
     private Map<String, Object> additionalProperties = new LinkedHashMap<>();
 
     @JsonProperty("items")
-    public List<Item> getItems() {
-        return items;
+    public List<Vacancy> getItems() {
+        return vacancies;
     }
 
     @JsonProperty("items")
-    public void setItems(List<Item> items) {
-        this.items = items;
+    public void setItems(List<Vacancy> vacancies) {
+        this.vacancies = vacancies;
     }
 
     @JsonProperty("found")

@@ -7,7 +7,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Item {
+public class Vacancy {
     @JsonProperty("id")
     private String id;
     @JsonProperty("name")
@@ -38,7 +38,8 @@ public class Item {
     private Employment employment;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new LinkedHashMap<>();
-
+    @JsonProperty("query")
+    private String query;
     @JsonProperty("id")
     public String getId() {
         return id;
@@ -188,5 +189,13 @@ public class Item {
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
     }
+    @JsonProperty("query")
+    public String getQuery() {
+        return query;
+    }
 
+    @JsonProperty("query")
+    public void setQuery(String query) {
+        this.query = query;
+    }
 }
