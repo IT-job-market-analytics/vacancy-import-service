@@ -2,6 +2,7 @@ package com.example.vacancyimportservice.service;
 
 import com.example.vacancyimportservice.dto.VacancyImportScheduledTaskDto;
 import com.example.vacancyimportservice.dto.hh.Vacancies;
+import com.example.vacancyimportservice.exception.HhApiBadRequestException;
 import com.example.vacancyimportservice.exception.HhApiQuotaExceededException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -38,6 +39,8 @@ public class HHApiService {
             log.info("Query handled successfully");
         } catch (HhApiQuotaExceededException e) {
             log.warn("We exceeded HH.ru API quota, swallowing exception, so the message will not be re-queued");
+        } catch (HhApiBadRequestException e) {
+            log.warn("Bad request to HH.ru API, swallowing exception, so the message will not be re-queued");
         }
     }
 
@@ -58,6 +61,9 @@ public class HHApiService {
         } catch (HttpClientErrorException.Forbidden e) {
             log.error(e.getMessage());
             throw new HhApiQuotaExceededException(e.getMessage());
+        } catch (HttpClientErrorException.BadRequest e) {
+            log.error(e.getMessage());
+            throw new HhApiBadRequestException(e.getMessage());
         }
     }
 }
