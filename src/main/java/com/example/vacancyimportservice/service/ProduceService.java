@@ -7,8 +7,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ProduceService {
-    @Value("${rabbitmq.vacancies_imported_exchange}")
-    private String vacanciesImportedExchange;
+    @Value("${rabbitmq.vacancies_queue}")
+    private String vacanciesQueue;
     private final RabbitTemplate rabbitTemplate;
 
     public ProduceService(RabbitTemplate rabbitTemplate) {
@@ -16,6 +16,6 @@ public class ProduceService {
     }
 
     public void publishVacancy(Vacancy vacancy) {
-        rabbitTemplate.convertAndSend(vacanciesImportedExchange,"",vacancy);
+        rabbitTemplate.convertAndSend(vacanciesQueue, vacancy);
     }
 }

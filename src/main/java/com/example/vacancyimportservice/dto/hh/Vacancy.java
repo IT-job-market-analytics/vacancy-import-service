@@ -15,7 +15,7 @@ public class Vacancy {
     @JsonProperty("area")
     private Area area;
     @JsonProperty("salary")
-    private Object salary;
+    private Salary salary;
     @JsonProperty("type")
     private Type type;
     @JsonProperty("response_url")
@@ -71,12 +71,12 @@ public class Vacancy {
     }
 
     @JsonProperty("salary")
-    public Object getSalary() {
+    public Salary getSalary() {
         return salary;
     }
 
     @JsonProperty("salary")
-    public void setSalary(Object salary) {
+    public void setSalary(Salary salary) {
         this.salary = salary;
     }
 
