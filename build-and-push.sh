@@ -2,10 +2,9 @@
 
 IMAGE_NAME="vacancy-import-service"
 TAG="dev"
-DOCKERHUB_NAME="vacusertest"
+DOCKERHUB_NAME="itjobmarketanalytics"
 
-docker build -t "${IMAGE_NAME}" .
+FULL_NAME="${DOCKERHUB_NAME}/${IMAGE_NAME}:${TAG}"
 
-docker tag "${IMAGE_NAME}:latest" "${DOCKERHUB_NAME}/${IMAGE_NAME}:${TAG}"
-
-docker push "${DOCKERHUB_NAME}/${IMAGE_NAME}:${TAG}"
+docker build -t "${FULL_NAME}" .
+docker push "${FULL_NAME}"
