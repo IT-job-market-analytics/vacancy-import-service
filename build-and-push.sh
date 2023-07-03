@@ -1,6 +1,6 @@
 #!/bin/bash
 
-IMAGE_NAME="itjobmarketanalytics-vacancy-import-service"
+IMAGE_NAME="vacancy-import-service"
 TAG="dev"
 DOCKERHUB_NAME="vacusertest"
 
