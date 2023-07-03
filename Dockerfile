@@ -4,7 +4,7 @@ COPY /src /src
 COPY pom.xml /
 RUN mvn -f /pom.xml clean package
 
-FROM openjdk:17-alpine
+FROM eclipse-temurin:17-jre
 WORKDIR /
 COPY --from=build /target/*.jar vacancy-import-service.jar
 EXPOSE 8080
