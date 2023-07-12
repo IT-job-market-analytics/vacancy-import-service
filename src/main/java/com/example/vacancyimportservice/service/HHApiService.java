@@ -20,23 +20,36 @@ public class HHApiService {
 
     private final ProduceService produceService;
 
-    public HHApiService(ProduceService produceService) {
+    private final QuotaService quotaService;
+
+    public HHApiService(ProduceService produceService, QuotaService quotaService) {
         this.produceService = produceService;
+        this.quotaService = quotaService;
     }
 
     void query(VacancyImportScheduledTaskDto query) {
         log.info("Receive scheduled query: " + query);
         try {
-            Vacancies vacancies = requestToApi(query);
-            log.debug("Returned vacancies count: " + vacancies.getItems().size());
 
-            log.debug("Setting query to DTOs and publishing to the next queue");
-            vacancies.getItems().forEach(item -> {
-                item.setQuery(query.getQuery());
-                produceService.publishVacancy(item);
-            });
+            log.debug("Check quota");
 
-            log.info("Query handled successfully");
+            if (quotaService.isQuota()) {
+                log.debug("Has quota");
+                Vacancies vacancies = requestToApi(query);
+                log.debug("Returned vacancies count: " + vacancies.getItems().size());
+
+                log.debug("Setting query to DTOs and publishing to the next queue");
+                vacancies.getItems().forEach(item -> {
+                    item.setQuery(query.getQuery());
+                    produceService.publishVacancy(item);
+                });
+
+                log.info("Query handled successfully");
+            } else {
+                log.debug("No quota. Throw exception");
+                throw new HhApiQuotaExceededException("Quota exceeded");
+            }
+
         } catch (HhApiQuotaExceededException e) {
             log.warn("We exceeded HH.ru API quota, swallowing exception, so the message will not be re-queued");
         } catch (HhApiBadRequestException e) {
