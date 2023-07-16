@@ -14,12 +14,21 @@ public class QuotaService {
     @Value("${quota.url}")
     private String url;
 
-    public boolean isQuota() {
-        log.debug("Request to rate limiter");
+    public void requestQuota() {
+        log.trace("Requesting to rate limiter");
+
+        long nanoTime = System.nanoTime();
+
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> response
                 = restTemplate.getForEntity(url, String.class);
 
-        return response.getStatusCode() == HttpStatus.OK;
+        long elapsedTimeMs = (System.nanoTime() - nanoTime) / 1000000;
+        log.debug("Quota retrieved in " + elapsedTimeMs + " ms");
+
+        if (response.getStatusCode() != HttpStatus.OK) {
+            log.warn("Rate limiter returned " + response.getStatusCode() + " status code");
+            throw new RuntimeException("Rate limiter returned " + response.getStatusCode() + " status code");
+        }
     }
 }

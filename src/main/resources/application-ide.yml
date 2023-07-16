@@ -1,6 +1,7 @@
 logging:
   level:
     com.example.vacancyimportservice.service.HHApiService: debug
+    com.example.vacancyimportservice.service.QuotaService: debug
 
 spring:
   rabbitmq:
