@@ -1,8 +1,12 @@
 logging:
   level:
     com.example.vacancyimportservice.service.HHApiService: debug
+    com.example.vacancyimportservice.service.QuotaService: debug
 
 spring:
   rabbitmq:
     username: analytics_service
     password: password
+
+quota:
+  url: http://localhost:8081/quota/hh-api

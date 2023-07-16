@@ -9,3 +9,6 @@ rabbitmq:
 
 api:
   url: https://api.hh.ru/vacancies/
+
+quota:
+  url: http://rate-limiter/quota/hh-api

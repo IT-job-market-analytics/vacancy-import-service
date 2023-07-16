@@ -20,13 +20,19 @@ public class HHApiService {
 
     private final ProduceService produceService;
 
-    public HHApiService(ProduceService produceService) {
+    private final QuotaService quotaService;
+
+    public HHApiService(ProduceService produceService, QuotaService quotaService) {
         this.produceService = produceService;
+        this.quotaService = quotaService;
     }
 
     void query(VacancyImportScheduledTaskDto query) {
         log.info("Receive scheduled query: " + query);
         try {
+            quotaService.requestQuota();
+
+            log.debug("Has quota");
             Vacancies vacancies = requestToApi(query);
             log.debug("Returned vacancies count: " + vacancies.getItems().size());
 
@@ -41,6 +47,9 @@ public class HHApiService {
             log.warn("We exceeded HH.ru API quota, swallowing exception, so the message will not be re-queued");
         } catch (HhApiBadRequestException e) {
             log.warn("Bad request to HH.ru API, swallowing exception, so the message will not be re-queued");
+        } catch (Exception e) {
+            log.warn("Unknown exception occurred, propagating it, so the message will be re-queued: " + e.getMessage());
+            throw e;
         }
     }
 
