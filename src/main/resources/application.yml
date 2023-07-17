@@ -11,4 +11,4 @@ api:
   url: https://api.hh.ru/vacancies/
 
 quota:
-  url: http://rate-limiter/quota/hh-api
+  url: http://rate-limiter:8080/quota/hh-api
