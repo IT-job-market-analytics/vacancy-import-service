@@ -6,9 +6,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Salary {
     @JsonProperty("from")
-    private int from;
+    private Integer from;
     @JsonProperty("to")
-    private int to;
+    private Integer to;
     @JsonProperty("currency")
     private String currency;
     @JsonProperty("gross")
